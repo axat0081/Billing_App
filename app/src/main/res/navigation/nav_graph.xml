@@ -7,8 +7,8 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.billingapp.ui.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_listFragment"
             app:destination="@id/listFragment" />
@@ -19,8 +19,8 @@
     <fragment
         android:id="@+id/registrationFragment"
         android:name="com.example.billingapp.ui.RegistrationFragment"
-        android:label="fragment_registration"
-        tools:layout="@layout/fragment_registration" >
+        android:label="Register"
+        tools:layout="@layout/fragment_registration">
         <action
             android:id="@+id/action_registrationFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -28,6 +28,11 @@
     <fragment
         android:id="@+id/listFragment"
         android:name="com.example.billingapp.ui.ListFragment"
-        android:label="fragment_list"
+        android:label="Order List"
         tools:layout="@layout/fragment_list" />
+    <fragment
+        android:id="@+id/finalOrderFragment"
+        android:name="com.example.billingapp.ui.FinalOrderFragment"
+        android:label="Order Summary"
+        tools:layout="@layout/fragment_final_order" />
 </navigation>

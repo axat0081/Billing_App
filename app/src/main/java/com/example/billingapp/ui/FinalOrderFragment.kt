@@ -6,47 +6,35 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.billingapp.R
-import com.example.billingapp.adapter.ItemAdapter
-import com.example.billingapp.databinding.FragmentListBinding
+import com.example.billingapp.adapter.OrderedItemsAdapter
+import com.example.billingapp.databinding.FragmentFinalOrderBinding
 import com.example.billingapp.viewModels.ListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class ListFragment : Fragment(R.layout.fragment_list), ItemAdapter.OnItemClickListener {
-    private var _binding: FragmentListBinding? = null
+class FinalOrderFragment:Fragment(R.layout.fragment_final_order) {
+    private var _binding: FragmentFinalOrderBinding? = null
     private val binding get() = _binding!!
     private val viewModel by activityViewModels<ListViewModel>()
-
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentListBinding.bind(view)
-        val itemAdapter = ItemAdapter(this, viewModel, requireContext())
+        _binding = FragmentFinalOrderBinding.bind(view)
+        val orderedItemsAdapter = OrderedItemsAdapter(viewModel)
         binding.apply {
-            listRecyclerview.apply {
-                adapter = itemAdapter
-                layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            }
-            nextButton.setOnClickListener {
-                findNavController().navigate(
-                    R.id.finalOrderFragment
-                )
+            orderedItemsRecyclerview.apply {
+                adapter = orderedItemsAdapter
+                layoutManager = LinearLayoutManager(requireContext())
             }
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                viewModel.totalPrice.collectLatest { price ->
+                viewModel.totalPrice.collectLatest { price->
                     totalPriceTextView.text = "Total Price: ${price}"
                 }
             }
         }
-    }
-
-    override fun onItemClick(item: String) {
-        viewModel.onOrderClick(item)
     }
 
     override fun onDestroy() {
